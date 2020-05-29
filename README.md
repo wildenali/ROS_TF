@@ -8,8 +8,8 @@ What's in the ROS TF
 4. Use RobotStatePublisher to generate TF data for robots too complex to publish it manually
 5. Understand the use of JointStatePublisher and how it relates to RobotMovement Controllers
 
-#--------------------------------------
-#TF Basic
+# --------------------------------------
+# TF Basic
 
 1. Terminal #1
     roslaunch turtle_tf_3d irobot_follow_turtle.launch
@@ -59,5 +59,6 @@ What's in the ROS TF
     
     Then, add a TF element and select the Fixed Frame /world.
 
-#--------------------------------------
-#TF Publisher
+# -------------------------------------
+# TF Publisher
+
