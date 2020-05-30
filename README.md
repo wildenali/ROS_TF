@@ -8,7 +8,7 @@ What's in the ROS TF
 4. Use RobotStatePublisher to generate TF data for robots too complex to publish it manually
 5. Understand the use of JointStatePublisher and how it relates to RobotMovement Controllers
 
-# --------------------------------------
+# ------------------------------------------------------------------------
 # TF Basic
 
 1. Terminal #1
@@ -62,7 +62,7 @@ What's in the ROS TF
     
     Then, add a TF element and select the Fixed Frame /world.
 
-# -------------------------------------
+# ------------------------------------------------------------------------
 # TF Publisher
 
 Exercise 2.1
@@ -82,6 +82,59 @@ Exercise 2.1
 
 If all went well, the iRobot should be trying to follow the turtle now.
 
+
+
 Exercise 2.2
 
-# ------------------------------------------------------------------------------
+In this exercise, you are going to create a new publisher that publishes the TF of a new model, the coke_can. Here is data to help you on this exercise:
+1. rosservice call /gazebo/get_world_properties "{}"
+2. rosrun your_package multiple_broadcatser.py
+3. rosrun rviz rviz
+4. rosrun rqt_tf_tree rqt_tf_tree
+5. evince frames.pdf
+
+
+# ------------------------------------------------------------------------
+
+# robot_state_publisher
+
+A. Know how Pi-Robot works
+
+1. roslaunch pi_robot_pkg pi_robot_control_norsp.launch
+2. Now let's move the Pi Robot a litle bit.
+
+    a. Terminal #2
+        rostopic list | grep command
+        rostopic pub /pi_robot/head_tilt_joint_position_controller/command std_msgs/Float64 "data: 0.0"
+        rostopic pub -1 /pi_robot/head_pan_joint_position_controller/command std_msgs/Float64 "data: 0.7"
+        rosrun rviz rviz
+
+        disini belum ada TF yg terpublish, makannnya RobotModel di RViz banyak errornya
+3. The first step is to STOP the controllers that you launched
+4. Terminal #1
+    roslaunch pi_robot_pkg pi_robot_control.launch
+5. Move the robot
+
+        a. Terminal #2
+            rostopic list | grep command
+            rostopic pub /pi_robot/head_tilt_joint_position_controller/command std_msgs/Float64 "data: 0.0"                
+            rostopic pub -1 /pi_robot/head_pan_joint_position_controller/command std_msgs/Float64 "data: 0.7"
+            rosrun tf view_frames
+            rosrun rqt_tf_tree rqt_tf_tree
+        b. Terminal #3
+            rostopic echo -n1 /tf
+            rosrun tf tf_echo frames.gv frames.pdf
+        c. Terminal #4
+            rosrun rviz rviz
+        
+        Nah disini baru TF di RobotModel nya udah ada
+
+        d. Terminal #3 (sebelumnya di ctrl+c dulu)
+            rosrun tf tf_echo torso_link upper_base_link
+
+
+
+B. Create your own robot_state_publihser launch
+
+
+
