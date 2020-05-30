@@ -34,6 +34,7 @@ What's in the ROS TF
     rqt_tf_tree gives the same functionality as the view_frames, with an interesting extra: you can refresh and see changes without having to generate another PDF file each time.
 
     This is very useful when testing new TF broadcasts, and also for checking if what you are using is still publishing or if it's an old publication.
+    
         a. Terminal #1
             rosrun rqt_tf_tree rqt_tf_tree
         b. Terminal #2
