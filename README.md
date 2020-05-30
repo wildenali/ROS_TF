@@ -42,22 +42,23 @@ What's in the ROS TF
 
 5. tf_echo
     In this exercise, you are going to see how to echo the **/tf** topic and how to use the **tf_echo** tool to filter the /tf topic data.
-    
-    a. Terminal #1
-        roslaunch turtle_tf_3d irobot_follow_turtle.launch
-    b. Terminal #2
-        rostopic echo -n1 /tf
-        rostopic echo -n2 /tf
-        rostopic echo -n3 /tf
+
+        a. Terminal #1
+            roslaunch turtle_tf_3d irobot_follow_turtle.launch
+        b. Terminal #2
+            rostopic echo -n1 /tf
+            rostopic echo -n2 /tf
+            rostopic echo -n3 /tf
 
 6. RVIZ magis
     In this exercise, you are going to represent the /tf topic data in 3D space and see how it changes when moving around the turtle.
-    a. Terminal #1
-        roslaunch turtle_tf_3d irobot_follow_turtle.launch
-    b. Terminal #2
-        roslaunch turtle_tf_3d turtle_keyboard_move.launch
-    c. Terminal #3
-        rosrun rviz rviz
+
+        a. Terminal #1
+            roslaunch turtle_tf_3d irobot_follow_turtle.launch
+        b. Terminal #2
+            roslaunch turtle_tf_3d turtle_keyboard_move.launch
+        c. Terminal #3
+            rosrun rviz rviz
     
     Then, add a TF element and select the Fixed Frame /world.
 
@@ -69,14 +70,15 @@ Exercise 2.1
 2. Create a python script multiple_broadcaster.py
 3. rosrun your_package multiple_broadcatser.py
 4. roslaunch turtle_tf_3d run_turtle_tf_listener.launch
-    a. Terminal #3
-        rostopic echo -n1 /tf
-        rostopic echo -n2 /tf
-        rostopic echo -n3 /tf
-    b. Terminal #3
-        rosrun rqt_tf_tree rqt_tf_tree
-    c. Terminal #4
-        rosrun rviz rviz
+
+        a. Terminal #3
+            rostopic echo -n1 /tf
+            rostopic echo -n2 /tf
+            rostopic echo -n3 /tf
+        b. Terminal #3
+            rosrun rqt_tf_tree rqt_tf_tree
+        c. Terminal #4
+            rosrun rviz rviz
 
 If all went well, the iRobot should be trying to follow the turtle now.
 
