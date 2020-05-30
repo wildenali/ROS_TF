@@ -34,10 +34,10 @@ What's in the ROS TF
     rqt_tf_tree gives the same functionality as the view_frames, with an interesting extra: you can refresh and see changes without having to generate another PDF file each time.
 
     This is very useful when testing new TF broadcasts, and also for checking if what you are using is still publishing or if it's an old publication.
-    a. Terminal #1
-        rosrun rqt_tf_tree rqt_tf_tree
-    b. Terminal #2
-        roslaunch turtle_tf_3d irobot_follow_turtle.launch
+        a. Terminal #1
+            rosrun rqt_tf_tree rqt_tf_tree
+        b. Terminal #2
+            roslaunch turtle_tf_3d irobot_follow_turtle.launch
 
 5. tf_echo
     In this exercise, you are going to see how to echo the **/tf** topic and how to use the **tf_echo** tool to filter the /tf topic data.
@@ -62,3 +62,22 @@ What's in the ROS TF
 # -------------------------------------
 # TF Publisher
 
+Exercise 2.1
+1. catkin_create_pkg your_package rospy turtle_tf_3d
+2. Create a python script multiple_broadcaster.py
+3. rosrun your_package multiple_broadcatser.py
+4. roslaunch turtle_tf_3d run_turtle_tf_listener.launch
+    a. Terminal #3
+        rostopic echo -n1 /tf
+        rostopic echo -n2 /tf
+        rostopic echo -n3 /tf
+    b. Terminal #3
+        rosrun rqt_tf_tree rqt_tf_tree
+    c. Terminal #4
+        rosrun rviz rviz
+
+If all went well, the iRobot should be trying to follow the turtle now.
+
+Exercise 2.2
+
+# ------------------------------------------------------------------------------
