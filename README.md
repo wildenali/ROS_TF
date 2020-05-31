@@ -136,5 +136,68 @@ A. Know how Pi-Robot works
 
 B. Create your own robot_state_publihser launch
 
+1. Create pi_robot_rst.launch launch file
+2. Something happed
+
+        a. Terminal #2
+            rosrun rqt_tf_tree rqt_tf_tree
+            Lihat di Layar, muncul sesuatu
+        b. Terminal #3
+            roscd your_package
+            rosrun tf view_frames
+            evince frames.pdf
+        c. Terminal #4
+            rosrun rviz rviz
+
+As you can see in the tf_tree, the links are not connected. You just see some of them connected. Why does this happen?
+
+Let's have a sneak peek into the URDF file that defines the Pi-Robot, which we know plays a major role on the robot_state_publisher node. For that, you will copy the URDF file to your catkin_ws/src in order to be able to visualize it properly through the IDE:
+
+4. Terminal #3
+    roscp pi_robot_pkg pi_robot_v2.urdf /home/user/catkin_ws/src/ROS_TF
 
 
+# ------------------------------------------------------------------------
+
+# joint_state_publisher
+
+1. Create pi_robot_rst_jst.launch file to run robot_state_publisher and the joint_state_publisher
+2. Terminal #1
+    roslaunch your_package pi_robot_rst_jst.launch
+3. Terminal #2
+    rosrun rqt_tf_tree rqt_tf_tree
+    Disini baru kelihatan kan, udah nyabung semua
+4. But wait... what about the robot in the simulation? It's not moving. In fact, maybe the arms are still wandering around freely. Why?
+
+    Although the joint state values are published, and therefore, the TFs can be calculated, these are just internal variables of ROS. Nothing here is telling the arms to move. It would be exactly the same on a real robot. If you had a way to publish the encoder values into your system and change them, it wouldn't mean the real robot would move.
+    And here is where ros_control comes into play.
+5. Ubah isi dari file pi_robot_v2.urd
+
+        <joint name="left_shoulder_forward_joint" type="revolute">
+            <parent link="left_shoulder_link"/>
+            <child link="left_shoulder_forward_link"/>
+            <origin xyz="0 0.025 0" rpy="0 0 0"/>
+            <limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+            <axis xyz="0 0 1"/>
+            <dynamics damping="0.7"/>
+        </joint>
+
+        <transmission name="tran4">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="left_shoulder_forward_joint">
+                <hardwareInterface>EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="motor4">
+                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    If the joint is defined as revolute, but the limits are 3.14 and -3.14, then change them to continuous. Otherwise, it won't work
+6. Define the new transmission controller with the name xxx_position_controller (left_shoulder_forward_joint_position_controller) in a configuration yaml file
+7. roslaunch your_package pi_robot_rst_jst.launch
+8. roslaunch pi_robot_pkg pi_robot_control.launch (ini uda ada di dalem kumpulan package nya)
+9. rosrun rqt_gui rqt_gui
+10. From the Plugins menu, add the Topics->Message Publisher. Then add, for instance, the following topic:
+    /pi_robot/left_elbow_joint_position_controller/command
+11. rostopic echo /pi_robot/joint_states
